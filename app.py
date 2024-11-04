@@ -23,8 +23,8 @@ def get_response():
     if not question:
         return jsonify({"error": "No question provided"}), 400
 
-    
-    answer = chat.send_message(question)
+    tuned_question = f"Responda sem acentos e caracteres especiais,e não retorne emoções em texto simples: {question}"
+    answer = chat.send_message(tuned_question)
 
     pattern = r'[\\*&]'
 
