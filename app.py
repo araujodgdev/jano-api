@@ -23,7 +23,7 @@ def get_response():
     if not question:
         return jsonify({"error": "No question provided"}), 400
 
-    tuned_question = f"Responda em até 300 caracteres sem caracteres especiais e não retorne emoções em texto simples: {question}"
+    tuned_question = f"Responda em até 500 caracteres sem caracteres especiais e não retorne emoções em texto simples: {question}"
     answer = chat.send_message(tuned_question)
 
     pattern = r'[\\*&]'
