@@ -23,8 +23,27 @@ def get_response():
     if not question:
         return jsonify({"error": "No question provided"}), 400
 
-    tuned_question = f"Responda sem caracteres especiais e não retorne emoções em texto simples: {question}"
+    tuned_question = f"Responda em até 300 caracteres sem caracteres especiais e não retorne emoções em texto simples: {question}"
     answer = chat.send_message(tuned_question)
+
+    pattern = r'[\\*&]'
+
+    cleaned_text = re.sub(pattern, '', answer.text)
+
+    cleaned_text = re.sub(r'\s+', ' ', cleaned_text).strip()
+
+    return jsonify({"response": cleaned_text})
+
+
+@app.route("/api/audio", methods=["POST"])
+def get_audio_response():
+    data = request.get_json()
+    audio = data.get("audio")
+
+    if not audio:
+        return jsonify({"error": "No audio provided"}), 400
+
+    answer = chat.send_message(audio)
 
     pattern = r'[\\*&]'
 
